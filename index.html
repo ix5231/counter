@@ -10,25 +10,85 @@
 body {
     text-align: center;
 }
+
 h1 {
     font-size: 20px;
     margin: 0px;
     margin-top: 50px;
 }
+
 article {
     margin: 30px;
 }
+
+.counter, #add {
+    display: inline-block;
+    cursor: pointer;
+    width: 150px;
+    height: 150px;
+    font-size: 30px;
+    text-align: center;
+    margin: 10px 10px;
+}
+
+.counter {
+    border: 4px solid orange;
+}
+
+#add {
+    border: 4px solid blue;
+}
+
 footer {
     font-size: 10px;
 }
 -->
 </style>
 
-<script type="text/javascript">
+<script type='text/javascript'>
 <!--
 window.onload = function() {
-    document.getElementById("content").textContent = "SomeContent"
-}
+    var countersContainer = document.getElementById('counters');
+    countersContainer.appendChild(newCounterAddElement());
+
+    var add = document.getElementById('add');
+    add.onclick = function() {
+        countersContainer.insertBefore(newCounterElement(), countersContainer.firstChild);
+    };
+};
+
+// クロージャの状態保持を体感したかっただけ
+var newCounter = function() {
+    var count = 0;
+
+    var counter = function() {
+        count += 1;
+        return count;
+    };
+
+    return counter;
+};
+
+var newCounterElement = function() {
+    var elemCounter = document.createElement('div');
+    elemCounter.textContent = '0';
+    elemCounter.className = 'counter';
+
+    var counter = newCounter();
+    elemCounter.onclick = function() {
+        elemCounter.textContent = counter();
+    };
+
+    return elemCounter;
+};
+
+var newCounterAddElement = function() {
+    var elemCounter = document.createElement('div');
+    elemCounter.textContent = '+';
+    elemCounter.id = 'add';
+
+    return elemCounter;
+};
 -->
 </script>
 
@@ -37,14 +97,13 @@ window.onload = function() {
 <body>
 <header>
     <h1>カウンター</h1>
-    クリックでカウントアップ
+    クリックでカウントアップ。増やせます。
 </header>
-<article>
-    <div id='content'></div>
+<article id='counters'>
 </article>
 
 <footer>
-    <a href="https://github.com/ix5231/template">GitHub repo</a>
+    <a href='https://github.com/ix5231/template'>GitHub repo</a>
 </footer>
 
 </body>
